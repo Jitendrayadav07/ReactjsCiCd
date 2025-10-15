@@ -27,8 +27,10 @@ jobs:
       # 4️⃣ Build the React app (produces dist/)
       - name: Build React app
         run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      # 5️⃣ Deploy dist/ folder to server
+      # 5️⃣ Deploy dist/ folder to server without deleting old files
       - name: Upload React build to server
         uses: easingthemes/ssh-deploy@v2.1.5
         with:
@@ -37,9 +39,8 @@ jobs:
           REMOTE_HOST: 34.14.201.174
           SOURCE: dist/
           TARGET: /var/www/html/ReactjsCiCd
-          ARGS: "--delete"  # remove old files not in dist/
 
-      # 6️⃣ Fix permissions on server (so nginx/Apache can serve files)
+      # 6️⃣ Fix permissions on server
       - name: Fix permissions on server
         uses: appleboy/ssh-action@v1.2.0
         with:

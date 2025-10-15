@@ -91,7 +91,7 @@ function App() {
 						<div className="stats">
 							<div className="stat">
 								<div className="stat-label">Sessions</div>
-								<div className="stat-value">20</div>
+								<div className="stat-value">22</div>
 								<div className="stat-trend up">+3 this week</div>
 							</div>
 							<div className="stat">

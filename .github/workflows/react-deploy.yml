@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
+      # 1️⃣ Checkout the latest code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node.js (React uses same Node version)
+      # 2️⃣ Setup Node.js (for building the React app)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -24,11 +24,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4️⃣ Build the React app
+      # 4️⃣ Build the React app (produces dist/)
       - name: Build React app
         run: npm run build
 
-      # 5️⃣ Deploy dist/ to server
+      # 5️⃣ Deploy dist/ folder to server
       - name: Upload React build to server
         uses: easingthemes/ssh-deploy@v2.1.5
         with:
@@ -37,10 +37,10 @@ jobs:
           REMOTE_HOST: 34.14.201.174
           SOURCE: dist/
           TARGET: /var/www/html/ReactjsCiCd
-          ARGS: "--delete" # optional: delete old files in target before upload
+          ARGS: "--delete"  # remove old files not in dist/
 
-      # Optional: Set proper permissions on server
-      - name: Fix permissions
+      # 6️⃣ Fix permissions on server (so nginx/Apache can serve files)
+      - name: Fix permissions on server
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: 34.14.201.174
@@ -48,5 +48,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            cd /var/www/html/ReactjsCiCd
-            sudo chown -R www-data:www-data .
+            sudo chown -R www-data:www-data /var/www/html/ReactjsCiCd
+            sudo chmod -R 755 /var/www/html/ReactjsCiCd

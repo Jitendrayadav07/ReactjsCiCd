@@ -9,32 +9,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout code
       - uses: actions/checkout@v4
-
-      # 2️⃣ Setup Node.js
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      # 3️⃣ Install dependencies
       - run: npm ci
-
-      # 4️⃣ Build React app (dist/ generated here)
       - run: npm run build
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      # 5️⃣ Give ubuntu write permission
+      # Clean old files
       - uses: appleboy/ssh-action@v1.2.0
         with:
           host: 34.14.201.174
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
           script: |
+            sudo rm -rf /var/www/html/ReactjsCiCd/*
             sudo chown -R ubuntu:ubuntu /var/www/html/ReactjsCiCd
 
-      # 6️⃣ Upload only new dist/ files (safe, no deletion of other files)
+      # Upload new build
       - uses: easingthemes/ssh-deploy@v2.1.5
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
@@ -42,9 +37,9 @@ jobs:
           REMOTE_HOST: 34.14.201.174
           SOURCE: dist/
           TARGET: /var/www/html/ReactjsCiCd
-          ARGS: "--recursive --omit-dir-times"
+          ARGS: "--recursive"
 
-      # 7️⃣ Reset permissions for nginx/apache
+      # Reset permissions
       - uses: appleboy/ssh-action@v1.2.0
         with:
           host: 34.14.201.174
@@ -53,3 +48,4 @@ jobs:
           script: |
             sudo chown -R www-data:www-data /var/www/html/ReactjsCiCd
             sudo chmod -R 755 /var/www/html/ReactjsCiCd
+            sudo systemctl reload nginx

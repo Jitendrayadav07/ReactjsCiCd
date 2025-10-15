@@ -91,11 +91,11 @@ function App() {
 						<div className="stats">
 							<div className="stat">
 								<div className="stat-label">Sessionssss</div>
-								<div className="stat-value">29</div>
+								<div className="stat-value">32</div>
 								<div className="stat-trend up">+6 this week</div>
 							</div>
 							<div className="stat">
-								<div className="stat-label">Security</div>
+								<div className="stat-label">Securitys</div>
 								<div className="stat-value">2FA On</div>
 								<div className="stat-trend neutral">All good</div>
 							</div>

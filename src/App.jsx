@@ -84,7 +84,7 @@ function App() {
 						</div>
 
 						<div className="dash-hero">
-							<h1>Welcome back, {userName}</h1>
+							<h1>Hello, {userName}</h1>
 							<p className="subtitle">Here’s a quick overview of your account today.</p>
 						</div>
 

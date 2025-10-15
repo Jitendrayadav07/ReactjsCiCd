@@ -27,8 +27,6 @@ jobs:
       # 4️⃣ Build the React app (produces dist/)
       - name: Build React app
         run: npm run build
-        env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
       # 5️⃣ Deploy dist/ folder to server without deleting old files
       - name: Upload React build to server

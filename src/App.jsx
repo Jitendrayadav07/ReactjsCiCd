@@ -91,7 +91,7 @@ function App() {
 						<div className="stats">
 							<div className="stat">
 								<div className="stat-label">Sessions</div>
-								<div className="stat-value">19</div>
+								<div className="stat-value">20</div>
 								<div className="stat-trend up">+3 this week</div>
 							</div>
 							<div className="stat">
@@ -149,7 +149,7 @@ function App() {
 								<span>Password</span>
 								<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
 							</label>
-							<button className="primary" type="submit">{mode === 'login' ? 'Login' : 'Sign Ups'}</button>
+							<button className="primary" type="submit">{mode === 'login' ? 'Login' : 'Sign Up'}</button>
 						</form>
 
 						{message && (

@@ -6,42 +6,36 @@ on:
 
 jobs:
   deploy:
-    name: Deploy React.js Frontend to GCP VM
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout the latest code
-      - name: Checkout code
-        uses: actions/checkout@v4
+      # 1️⃣ Checkout code
+      - uses: actions/checkout@v4
 
       # 2️⃣ Setup Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
 
       # 3️⃣ Install dependencies
-      - name: Install dependencies
-        run: npm install
+      - run: npm ci
 
-      # 4️⃣ Build the React app
-      - name: Build React app
-        run: npm run build
+      # 4️⃣ Build React app (dist/ generated here)
+      - run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      # 5️⃣ Give ubuntu write permission temporarily
-      - name: Prepare directory on server
-        uses: appleboy/ssh-action@v1.2.0
+      # 5️⃣ Give ubuntu write permission
+      - uses: appleboy/ssh-action@v1.2.0
         with:
           host: 34.14.201.174
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
-          port: 22
           script: |
             sudo chown -R ubuntu:ubuntu /var/www/html/ReactjsCiCd
 
-      # 6️⃣ Upload dist/ folder
-      - name: Upload React build to server
-        uses: easingthemes/ssh-deploy@v2.1.5
+      # 6️⃣ Upload only new dist/ files (safe, no deletion of other files)
+      - uses: easingthemes/ssh-deploy@v2.1.5
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
           REMOTE_USER: ubuntu
@@ -50,14 +44,12 @@ jobs:
           TARGET: /var/www/html/ReactjsCiCd
           ARGS: "--recursive --omit-dir-times"
 
-      # 7️⃣ Reset ownership for web server
-      - name: Fix permissions for web server
-        uses: appleboy/ssh-action@v1.2.0
+      # 7️⃣ Reset permissions for nginx/apache
+      - uses: appleboy/ssh-action@v1.2.0
         with:
           host: 34.14.201.174
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
-          port: 22
           script: |
             sudo chown -R www-data:www-data /var/www/html/ReactjsCiCd
             sudo chmod -R 755 /var/www/html/ReactjsCiCd

@@ -39,6 +39,7 @@ jobs:
           REMOTE_HOST: 34.14.201.174
           SOURCE: dist/
           TARGET: /var/www/html/ReactjsCiCd
+          ARGS: "--omit-dir-times"
 
       # 6️⃣ Fix permissions on server
       - name: Fix permissions on server

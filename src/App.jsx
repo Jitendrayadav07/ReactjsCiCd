@@ -149,7 +149,7 @@ function App() {
 								<span>Password</span>
 								<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
 							</label>
-							<button className="primary" type="submit">{mode === 'login' ? 'Login' : 'Sign Upss'}</button>
+							<button className="primary" type="submit">{mode === 'login' ? 'Login' : 'Sign Ups'}</button>
 						</form>
 
 						{message && (

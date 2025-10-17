@@ -91,7 +91,7 @@ function App() {
 						<div className="stats">
 							<div className="stat">
 								<div className="stat-label">Sessionssss</div>
-								<div className="stat-value">32</div>
+								<div className="stat-value">38</div>
 								<div className="stat-trend up">+6 this week</div>
 							</div>
 							<div className="stat">
@@ -100,8 +100,8 @@ function App() {
 								<div className="stat-trend neutral">All good</div>
 							</div>
 							<div className="stat">
-								<div className="stat-label">Plan</div>
-								<div className="stat-value">Free</div>
+								<div className="stat-label"> Use Plan</div>
+								<div className="stat-value">Free Api</div>
 								<div className="stat-trend">Upgrade anytime</div>
 							</div>
 						</div>
